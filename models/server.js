@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { connectDB } = require('../db/config');
 
 class Server {
 
@@ -11,15 +12,15 @@ class Server {
       
     };
 
-    // middlewares, se ejecutan antes de llegar a las rutas
+    this.dbConnection();
+
     this.middlewares();
 
-    // rutas
     this.routes();
   }
 
-  async connectDB() {
-    await dbConnection();
+  async dbConnection() {
+    await connectDB();
   }
 
   middlewares() {
