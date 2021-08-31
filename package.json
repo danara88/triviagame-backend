@@ -1,0 +1,18 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "This a Trivia Game Backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Trivia",
+    "Game",
+    "Questions",
+    "Answers",
+    "Score"
+  ],
+  "author": "Daniel Aranda Martin",
+  "license": "ISC"
+}
