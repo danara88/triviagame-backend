@@ -13,6 +13,7 @@ class Server {
       auth:     '/api/auth',
       category: '/api/categories',
       game:     '/api/games',
+      question: '/api/questions',
     };
 
     this.dbConnection();
@@ -36,6 +37,7 @@ class Server {
     this.app.use(this.paths.auth, require('../routes/auth'));
     this.app.use(this.paths.category, require('../routes/category'));
     this.app.use(this.paths.game, require('../routes/game'));
+    this.app.use(this.paths.question, require('../routes/question'));
   }
 
   listen() {

@@ -1,6 +1,8 @@
 const User = require('../models/user');
 const Category = require('../models/category');
 const Game = require('../models/game');
+const Question = require('../models/question');
+
 
 /**
  * Validate if the user email is not registered yet
@@ -20,6 +22,16 @@ const existCategoryId = async ( id = '' ) => {
     }
 }
 
+/*
+* Validates if the category exists in the database
+*/
+const existQuestionId = async ( id = '' ) => {
+  const question = await Question.findById(id);
+  if ( !question ) {
+    throw new Error(`The id ${ id } does´t exists`);
+  }
+}
+
 /**
  * Validates if the game exists in DB
  * @param {*} id 
@@ -35,4 +47,5 @@ module.exports = {
     existsEmailUser,
     existCategoryId,
     existGameId,
+    existQuestionId,
 }
