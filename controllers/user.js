@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const Ranking = require('../models/ranking');
 const bcryptjs = require('bcryptjs');
 const { generateJWT } = require('../helpers');
 
@@ -11,6 +12,10 @@ const createUser = async (req, res) => {
 
     await user.save();
     const token = await generateJWT(user._id);
+
+    // Add the user to the ranking
+    const ranking = new Ranking({ user: user._id });
+    await ranking.save();
 
     res.json({
         user,

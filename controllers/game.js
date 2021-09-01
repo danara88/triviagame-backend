@@ -1,4 +1,5 @@
 const Game = require('../models/game');
+const Ranking = require('../models/ranking');
 const moment = require('moment');
 const { getHourFormatDiff } = require('../helpers');
 
@@ -15,15 +16,10 @@ const createGame = async (req, res) => {
 const endGame = async (req, res) => {
     const { id } = req.params;
     const { totalScore = 0 } = req.body;
+    const { _id: user } = req.user;
 
     const gameDB = await Game.findById(id);
     let startDateTime = gameDB.startDateTime;  
-
-    if (gameDB.endDateTime) {
-        return res.status(400).json({
-            message: 'The game has been already completed'
-        });
-    }
 
     let endDateTime = new Date();
     let hourFormat = getHourFormatDiff(startDateTime, endDateTime);
@@ -35,7 +31,15 @@ const endGame = async (req, res) => {
         updatedAt: moment().unix()
     }
 
+    // Update game
     const game = await Game.findByIdAndUpdate(id, data, {new: true});
+
+    // Update ranking
+    const rankingDB = await Ranking.findOne({ user });
+    let newScore = rankingDB.totalScore + game.totalScore;
+    rankingDB.totalScore = newScore;
+    rankingDB.save();
+
     res.json(game);
 }
 
