@@ -9,9 +9,10 @@ class Server {
     this.port = process.env.PORT;
 
     this.paths = {
-      user: '/api/users',
-      auth: '/api/auth',
+      user:     '/api/users',
+      auth:     '/api/auth',
       category: '/api/categories',
+      game:     '/api/games',
     };
 
     this.dbConnection();
@@ -34,6 +35,7 @@ class Server {
     this.app.use(this.paths.user, require('../routes/user'));
     this.app.use(this.paths.auth, require('../routes/auth'));
     this.app.use(this.paths.category, require('../routes/category'));
+    this.app.use(this.paths.game, require('../routes/game'));
   }
 
   listen() {
