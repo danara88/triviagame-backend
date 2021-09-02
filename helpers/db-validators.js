@@ -2,6 +2,8 @@ const User = require('../models/user');
 const Category = require('../models/category');
 const Game = require('../models/game');
 const Question = require('../models/question');
+const Answer = require('../models/answer');
+
 
 
 /**
@@ -23,11 +25,21 @@ const existCategoryId = async ( id = '' ) => {
 }
 
 /*
-* Validates if the category exists in the database
+* Validates if the question exists in the database
 */
 const existQuestionId = async ( id = '' ) => {
   const question = await Question.findById(id);
   if ( !question ) {
+    throw new Error(`The id ${ id } does´t exists`);
+  }
+}
+
+/*
+* Validates if the answer exists in the database
+*/
+const existAnswerId = async ( id = '' ) => {
+  const answer = await Answer.findById(id);
+  if ( !answer ) {
     throw new Error(`The id ${ id } does´t exists`);
   }
 }
@@ -46,6 +58,7 @@ const existGameId = async ( id = '' ) => {
 module.exports = {
     existsEmailUser,
     existCategoryId,
+    existAnswerId,
     existGameId,
     existQuestionId,
 }
