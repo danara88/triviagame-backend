@@ -29,7 +29,7 @@ const getCategory = async (req, res) => {
 
 
 const createCategory = async (req, res = response) => {
-    const { name } = req.body;
+    const { name, description } = req.body;
 
     const categoryDB = await Category.findOne({ name });
     if ( categoryDB ) {
@@ -38,7 +38,7 @@ const createCategory = async (req, res = response) => {
         });
     }
 
-    const category = new Category({ name });
+    const category = new Category({ name, description });
     
     await category.save();
     return res.status(201).json(category);

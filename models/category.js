@@ -7,6 +7,10 @@ const CategorySchema = Schema({
         required: [true, 'The name is required'],
         unique: true
     },
+    description: {
+        type: String,
+        required: [true, 'The description is required']
+    },
     status: {
         type: Boolean,
         default: true,
