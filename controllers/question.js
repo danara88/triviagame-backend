@@ -27,6 +27,7 @@ const getQuestionsByCategory = async (req, res) => {
     const [total, questions] = await Promise.all([
         Question.countDocuments(query),
         Question.find(query)
+            .populate('options')
             .skip(Number(from))
             .limit(Number(limit))
     ]);

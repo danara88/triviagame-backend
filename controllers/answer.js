@@ -1,14 +1,27 @@
-const { Answer } = require('../models');
+const { Answer, Question } = require('../models');
 const moment = require('moment');
 
 
 const createAnswer = async (req, res = response) => {
     const { question, content } = req.body;
 
+    // Create an instance of answer
     const answer = new Answer({ question, content });
+
+    // Search for the question
+    const questionDB = await Question.findById(question);
+
+    // Add new option in the question
+    if (questionDB.options.length >= 4) return res.status(400).json({ message: 'Limit of options reached' });
+    questionDB.options.push(answer); 
     
     await answer.save();
-    return res.status(201).json(answer);
+    await questionDB.save();
+
+    return res.status(201).json({
+        answer,
+        question: questionDB
+    });
 }
 
 

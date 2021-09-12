@@ -11,6 +11,12 @@ const QuestionSchema = Schema({
         type: String,
         required: [true, 'The sentence is required']
     },
+    options: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Answer'
+        }
+    ],
     score: {
         type: Number,
         default: 10
