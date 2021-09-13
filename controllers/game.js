@@ -38,7 +38,7 @@ const endGame = async (req, res) => {
     const rankingDB = await Ranking.findOne({ user });
     let newScore = rankingDB.totalScore + game.totalScore;
     rankingDB.totalScore = newScore;
-    rankingDB.save();
+    await rankingDB.save();
 
     res.json(game);
 }
