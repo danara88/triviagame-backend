@@ -6,10 +6,11 @@ const { createQuestion,
         getQuestion, 
         updateQuestion, 
         deleteQuestion, 
-        getQuestionsByCategory} = require('../controllers');
+        getQuestionsByCategory,
+        assignCorrectAnswer} = require('../controllers');
         
 const { validateFields, isAdminRole, validateJWT } = require('../middlewares');
-const { existQuestionId, existCategoryId } = require('../helpers/db-validators');
+const { existQuestionId, existCategoryId, existAnswerId } = require('../helpers/db-validators');
 
 const api = Router();
 
@@ -44,6 +45,17 @@ api.post('/', [
     check('category').custom(existCategoryId),
     validateFields
 ], createQuestion);
+
+// Assign correct answer to question
+api.put('/question-assign-correctanswer/:questionId', [
+    validateJWT,
+    isAdminRole,
+    check('answer', 'The answer ID is not valid').isMongoId(),
+    check('answer').custom(existAnswerId),
+    check('questionId', 'The question ID is not valid').isMongoId(),
+    check('questionId').custom(existQuestionId),
+    validateFields
+], assignCorrectAnswer);
 
 // Update an existing question
 api.put('/:id', [

@@ -17,6 +17,10 @@ const QuestionSchema = Schema({
             ref: 'Answer'
         }
     ],
+    correctAnswer: {
+        type: Schema.Types.ObjectId,
+        ref: "Answer"
+    },
     score: {
         type: Number,
         default: 10

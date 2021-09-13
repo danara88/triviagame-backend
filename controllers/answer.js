@@ -15,6 +15,7 @@ const createAnswer = async (req, res = response) => {
     if (questionDB.options.length >= 4) return res.status(400).json({ message: 'Limit of options reached' });
     questionDB.options.push(answer); 
     
+    // Save answer and question in respective table data base
     await answer.save();
     await questionDB.save();
 

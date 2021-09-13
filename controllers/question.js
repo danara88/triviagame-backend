@@ -1,5 +1,6 @@
-const Question = require('../models/question');
+const { ObjectId } = require('mongoose').Types;
 const moment = require('moment');
+const Question = require('../models/question');
 
 const getQuestions = async (req, res) => {
     const { from = 0, limit = 10 } = req.query;
@@ -52,11 +53,32 @@ const getQuestion = async (req, res) => {
 const createQuestion = async (req, res) => {
     const { category, sentence, score = 10 } = req.body;
 
-    const question = new Question({ category, sentence, score });
+    let dataToSave = {
+        category,
+        sentence,
+        score
+    }
+
+    const question = new Question( dataToSave );
     
     await question.save();
-    return res.status(201).json(question);
+    res.status(201).json(question);
 
+}
+
+
+const assignCorrectAnswer = async (req, res) => {
+    const { questionId } = req.params;
+    const { answer } = req.body;
+    
+    const questionDB = await Question.findById(questionId);
+
+    if (!questionDB.status) return res.status(400).json({ message: 'The question is not available' });
+    if (!questionDB.options.includes(answer)) return res.status(400).json({ message: 'We can not assign this answer to the question' });
+    
+    const question = await Question.findByIdAndUpdate(questionId, { correctAnswer: answer }, {new: true});
+
+    res.json(question);
 }
 
 
@@ -86,4 +108,5 @@ module.exports = {
     updateQuestion,
     deleteQuestion,
     getQuestionsByCategory,
+    assignCorrectAnswer
 }
