@@ -33,8 +33,19 @@ const login = async (req, res) => {
     }
 
 }
+
+const refreshToken = async (req, res) => {
+    const { _id: uid } = req.user;
+
+    const token = await generateJWT(uid);
+
+    res.json({
+        token
+    });
+}
    
 
 module.exports = {
     login,
+    refreshToken,
 } 
