@@ -15,6 +15,7 @@ class Server {
       game:     '/api/games',
       question: '/api/questions',
       answer:   '/api/answers',
+      ranking:  '/api/rankings',
     };
 
     this.dbConnection();
@@ -40,6 +41,7 @@ class Server {
     this.app.use(this.paths.game, require('../routes/game'));
     this.app.use(this.paths.question, require('../routes/question'));
     this.app.use(this.paths.answer, require('../routes/answer'));
+    this.app.use(this.paths.ranking, require('../routes/ranking'));
   }
 
   listen() {

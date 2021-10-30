@@ -4,6 +4,7 @@ const categoryController = require('./category');
 const gameController = require('./game');
 const questionController = require('./question');
 const answerController = require('./answer');
+const rankingController = require('./ranking');
 
 module.exports = {
     ...userController,
@@ -12,4 +13,5 @@ module.exports = {
     ...gameController,
     ...questionController,
     ...answerController,
+    ...rankingController,
 }
